@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flysian</title>
+  <link rel="stylesheet" href="./fly.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    #main-header {
+      
+      
+      text-align: center;
+      padding: 20px;
+      width: 100%;
+    }
+
+    h1 {
+      margin: 0;
+      colour: black;
+    }
+
+    #main-nav {
+      
+      padding: 10px;
+      width: 100%;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    li {
+      display: inline-block;
+      margin-right: 20px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    
+
+    button {
+      background-color: blue;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      
+    }
+
+    button:hover {
+      background-color: blue;
+    }
+
+    .hidden {
+      display: none;
+      width: 100%;
+      }
+    </style>
+</head>
+<body>
+  
+<div class="background-container">
+    <canvas class="p-canvas-webgl" id="canvas-webgl"></canvas>
+  </div>
+  
+  <div class="p-summary">
+  <header id="main-header">
+    <h1>Welcome to Flysian Company</h1>
+  </header>
+
+  <nav id="main-nav">
+    <ul>
+      <li><a href="#" onclick="showSection('blog')">Blog</a></li>
+      <li><a href="#" onclick="showSection('store')">Store</a></li>
+      <li><a href="#" onclick="showSection('smm-panel')">SMM Panel</a></li>
+    </ul>
+  </nav>
+
+<section id="blog" class="hidden">
+  <h2>Blog Section</h2>
+  <p>Learning is a journey, and we're here to support you every step of the way. Let's embark on this educational adventure together!</p>
+<p>Click here to visit our blog and explore more.</p>
+
+  <button onclick="redirectToBlog()">Visit Blog</button>
+  <button onclick="goBack('main-header', 'main-nav', 'blog')">Back</button>
+</section>
+
+<section id="store" class="hidden">
+  <script>
+    function redirectToStore() {
+      window.location.href = 'https://mr-risov.github.io/flysian-Store';
+    }
+
+    function redirectToBlog() {
+      window.location.href = 'https://mr-risov.github.io/blog';
+    }
+  </script>
+
+  <h2>Store Section</h2>
+  <p>Here, you'll find a curated collection of courses, essential tools, and cutting-edge software. Elevate your skills, streamline your work, and unlock your full potential. Explore our offerings and invest in your growth today.</p>
+<p>Click here to visit our store.</p>
+
+  <button onclick="redirectToStore()">Visit Store</button>
+  <button onclick="goBack('main-header', 'main-nav', 'store')">Back</button>
+</section>
+
+<section id="smm-panel" class="hidden">
+  <h2>SMM Panel Section</h2>
+ <p>A powerful platform to boost your social media presence. Elevate your brand, engage your audience, and track your success effortlessly. With a user-friendly interface and a range of services, we're here to supercharge your social media game. Let's amplify your online presence together!</p>
+<p>Click here to visit our SMM Panel site.</p>
+
+  <button onclick="redirectToSmmPanel()">Visit SMM Panel</button>
+  <button onclick="goBack('main-header', 'main-nav', 'smm-panel')">Back</button>
+</section>
+  </p>
+  </div>
+  
+
+<script>
+  function redirectToSmmPanel() {
+    window.location.href = 'https://mr-risov.github.io/smm-panel';
+  }
+</script>
+
+
+  <script>
+    function showSection(sectionId) {
+      // Hide header and nav
+      document.getElementById('main-header').style.display = 'none';
+      document.getElementById('main-nav').style.display = 'none';
+
+      // Hide all sections
+      document.querySelectorAll('section').forEach(section => {
+        section.classList.add('hidden');
+      });
+
+      // Show the selected section
+      document.getElementById(sectionId).classList.remove('hidden');
+
+      // Set cookie to remember active section
+      document.cookie = `activeSection=${sectionId}`;
+      document.title = `Flysian - ${sectionId.charAt(0).toUpperCase() + sectionId.slice(1)} Section`;
+    }
+
+    function goBack(headerId, navId, sectionId) {
+      // Show header and nav
+      document.getElementById(headerId).style.display = 'block';
+      document.getElementById(navId).style.display = 'block';
+
+      // Remove the selected section
+      document.getElementById(sectionId).classList.add('hidden');
+
+      // Retrieve active section from cookie
+      const activeSection = document.cookie.split('; ').find(row => row.startsWith('activeSection')).split('=')[1];
+
+      // Show the previously active section
+      if (activeSection && activeSection === sectionId) {
+        document.getElementById(activeSection).classList.remove('hidden');
+        document.title = `Flysian - ${activeSection.charAt(0).toUpperCase() + activeSection.slice(1)} Section`;
+      }
+    }
+
+    // On page load, show the last active section
+    window.onload = function() {
+      const activeSection = document.cookie.split('; ').find(row => row.startsWith('activeSection')).split('=')[1];
+      if (activeSection) {
+        showSection(activeSection);
+      }
+    };
+
+    // Handle refreshing the page
+    window.onbeforeunload = function() {
+      const activeSection = document.cookie.split('; ').find(row => row.startsWith('activeSection')).split('=')[1];
+      if (activeSection) {
+        showSection(activeSection);
+      }
+    };
+        </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/86/three.min.js'></script>
+  <script src="./fly.js"></script>
+
+</body>
+</html>
